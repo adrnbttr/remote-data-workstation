@@ -15,3 +15,15 @@
         path: "{{ dwx_project_dir }}"
         state: directory
         mode: "0755"
+
+    - name: Deploy the example docker-compose stack
+      ansible.builtin.template:
+        src: docker-compose.example.yml.j2
+        dest: "{{ dwx_project_dir }}/docker-compose.example.yml"
+        mode: "0644"
+
+    - name: Deploy the example environment file
+      ansible.builtin.copy:
+        src: env.example
+        dest: "{{ dwx_project_dir }}/.env.example"
+        mode: "0644"
