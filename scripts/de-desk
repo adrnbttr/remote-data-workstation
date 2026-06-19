@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# de-desk — open a web app running on the workstation in your local browser,
+# through a secure SSH tunnel. No port is ever exposed publicly.
+#
+# Usage:   de-desk [ssh-host] [port]
+# Config:  RDW_HOST       ssh host/alias of the workstation (or $1)
+#          RDW_DESK_PORT  port to forward                   (default: 3000, or $2)
+set -euo pipefail
+
+host="${1:-${RDW_HOST:?Set RDW_HOST or pass the ssh host as an argument}}"
+port="${2:-${RDW_DESK_PORT:-3000}}"
+url="http://localhost:${port}"
+
+echo "Forwarding ${url} -> ${host}:${port} (Ctrl-C to stop)"
+
+# Best-effort: open the browser once the tunnel is likely up.
+(
+  sleep 2
+  if command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "$url"
+  elif command -v open >/dev/null 2>&1; then
+    open "$url"
+  fi
+) >/dev/null 2>&1 &
+
+exec ssh -N -L "${port}:localhost:${port}" "$host"
