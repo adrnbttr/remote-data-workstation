@@ -5,3 +5,7 @@ ai_tools_home: "/home/{{ workstation_user }}"
 # interactive login), so no credentials are ever provisioned onto the VM.
 ai_tools_install_claude_code: true
 ai_tools_claude_bin: "{{ ai_tools_home }}/.local/bin/claude"
+
+# opencode CLI.
+ai_tools_install_opencode: true
+ai_tools_opencode_bin: "{{ ai_tools_home }}/.opencode/bin/opencode"
