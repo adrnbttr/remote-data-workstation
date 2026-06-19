@@ -1,11 +1,15 @@
-# remote-data-workstation
+<div align="center">
+
+# 🛰️ Remote Data Workstation
+
+**A secure, reproducible data-engineering workstation —**<br>
+**provisioned with Ansible, co-located with your database.**
 
 [![CI](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/ci.yml)
 [![Security](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/security.yml/badge.svg)](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/security.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-Infrastructure-as-code, powered by **Ansible**, to provision a secure and
-reproducible **remote data-engineering workstation**.
+</div>
 
 The idea is simple: instead of pulling large datasets down to a laptop over the
 internet, run the development environment on a VM that sits **next to the
