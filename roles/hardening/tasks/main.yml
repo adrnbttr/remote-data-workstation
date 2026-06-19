@@ -10,3 +10,6 @@
 
 - name: Configure automatic security updates
   ansible.builtin.import_tasks: updates.yml
+
+- name: Enroll the node on Tailscale
+  ansible.builtin.import_tasks: tailscale.yml

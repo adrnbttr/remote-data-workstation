@@ -14,3 +14,8 @@ hardening_ufw_tailscale_interface: tailscale0
 # ── fail2ban ─────────────────────────────────────────────────────────────────
 hardening_fail2ban_maxretry: 5
 hardening_fail2ban_bantime: 1h
+
+# ── Tailscale ────────────────────────────────────────────────────────────────
+# Auth key is a secret: provide it via vault (vault_tailscale_auth_key).
+hardening_tailscale_auth_key: "{{ vault_tailscale_auth_key | default('') }}"
+hardening_tailscale_pkg_base: "https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}"
