@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Adrien Bouttier
+  description: Install AI CLI tooling on the workstation (authentication is manual).
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+dependencies: []
