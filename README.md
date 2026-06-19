@@ -17,7 +17,8 @@ database** (same region / private network). Heavy work stays close to the data,
 the laptop becomes a thin client you SSH into — and iteration gets dramatically
 faster.
 
-> 🚧 Work in progress — see the roadmap below.
+See [docs/architecture.md](./docs/architecture.md) for the reasoning behind the
+design.
 
 ## How it works
 
@@ -34,22 +35,33 @@ which sits in the same region as the database.
 
 ```
 ansible.cfg
-inventory/            hosts + group_vars (vault-encrypted secrets)
+inventory/             hosts + group_vars (vault-encrypted secrets)
 playbooks/
-  site.yml            personal profile — the base workstation
+  site.yml             personal profile — the base workstation
   data-workstation.yml example profile — base + a generic data overlay
-roles/                one role per concern (see roadmap)
+roles/                 one role per concern (see below)
+scripts/               local helper scripts (run on your laptop)
+docs/                  design notes
 ```
 
-## Roadmap
+## What it sets up
 
-- [ ] `hardening` — SSH hardening, default-deny firewall, fail2ban, Tailscale
-- [ ] `user` — non-root user with sudo and authorized keys
-- [ ] `dotfiles` — clone & stow dotfiles, oh-my-zsh
-- [ ] `dev_tools` — zsh, neovim, python/node toolchains, docker, modern CLIs
-- [ ] `remote_shell` — mosh, kitty terminfo, remote session helpers
-- [ ] `ai_tools` — AI CLI tooling
-- [ ] `data_workstation_example` — generic data overlay (showcase)
+The base workstation (`site.yml`) is built from focused roles:
+
+| Role | Responsibility |
+| --- | --- |
+| `user` | Non-root user with sudo and authorized SSH keys |
+| `hardening` | SSH hardening, default-deny firewall, fail2ban, auto security updates, Tailscale |
+| `dotfiles` | Clone & stow dotfiles, oh-my-zsh and zsh plugins |
+| `dev_tools` | Python (pyenv/uv/poetry), Node (nvm), Docker, modern CLIs, gh, gcloud |
+| `remote_shell` | mosh and kitty terminfo for a comfortable SSH experience |
+| `ai_tools` | AI CLI tooling (authentication stays manual) |
+
+The example profile (`data-workstation.yml`) adds `data_workstation_example`, a
+generic overlay showing how a project layer sits on top of the base.
+
+The `scripts/` helpers (`de-session-remote`, `de-desk`) run on your **laptop** to
+drive the remote workflow over SSH — see [scripts/README.md](./scripts/README.md).
 
 ## Security model
 
@@ -60,9 +72,17 @@ roles/                one role per concern (see roadmap)
 ## Quickstart
 
 ```bash
+# 1. Install dependencies
 ansible-galaxy collection install -r requirements.yml
+
+# 2. Point the inventory at your VM (reached over Tailscale)
 cp inventory/hosts.example.ini inventory/hosts.ini   # then edit
+
+# 3. Provision the base workstation...
 ansible-playbook playbooks/site.yml
+
+# ...or the example profile with the data overlay
+ansible-playbook playbooks/data-workstation.yml
 ```
 
 ## Quality & CI
