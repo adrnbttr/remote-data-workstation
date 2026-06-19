@@ -1,0 +1,5 @@
+---
+# Enforce the Conventional Commits specification.
+# https://www.conventionalcommits.org
+extends:
+  - "@commitlint/config-conventional"
