@@ -1,0 +1,10 @@
+---
+profile: production
+
+exclude_paths:
+  - .github/
+  - collections/
+
+# Roles in this repo are namespaced by their directory, not a galaxy prefix.
+skip_list:
+  - var-naming[no-role-prefix]

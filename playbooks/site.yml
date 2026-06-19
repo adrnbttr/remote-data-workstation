@@ -1,0 +1,11 @@
+---
+# Personal profile — provisions the base ("socle") workstation, with no project
+# overlay. Roles are wired in incrementally; see the roadmap in the README.
+- name: Provision base workstation
+  hosts: workstation
+  become: true
+
+  tasks:
+    - name: Scaffold placeholder
+      ansible.builtin.debug:
+        msg: "Base workstation playbook — roles are added in upcoming PRs."
