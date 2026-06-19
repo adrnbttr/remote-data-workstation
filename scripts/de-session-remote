@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#
+# de-session-remote — open a kitty workspace on the remote workstation.
+#
+# This runs on your LOCAL machine: kitty is a local GUI terminal. It opens one
+# kitty tab per git worktree found on the VM, each SSH-connected and running
+# nvim — mirroring a local multi-worktree workflow while the code and compute
+# live on the workstation.
+#
+# Usage:   de-session-remote [ssh-host]
+# Config:  RDW_HOST           ssh host/alias of the workstation (or $1)
+#          RDW_MAIN_DIR       main repo path on the VM   (default: ~/project)
+#          RDW_WORKTREES_DIR  worktrees root on the VM   (default: $RDW_MAIN_DIR-wt)
+#
+# Requires `allow_remote_control yes` in your local kitty.conf.
+set -euo pipefail
+
+host="${1:-${RDW_HOST:?Set RDW_HOST or pass the ssh host as an argument}}"
+main_dir="${RDW_MAIN_DIR:-\$HOME/project}"
+wt_dir="${RDW_WORKTREES_DIR:-${main_dir}-wt}"
+
+if [[ -z "${KITTY_WINDOW_ID:-}" ]]; then
+  echo "de-session-remote must be run inside kitty." >&2
+  exit 1
+fi
+
+launch_tab() {
+  local title="$1" dir="$2"
+  kitty @ launch --type=tab --tab-title "$title" \
+    kitten ssh "$host" -t "cd '$dir' && exec \"\$SHELL\" -l -c nvim"
+}
+
+# Main repository tab.
+launch_tab "main" "$main_dir"
+
+# One tab per worktree directory.
+while IFS= read -r wt; do
+  [[ -n "$wt" ]] || continue
+  launch_tab "$(basename "$wt")" "$wt"
+done < <(ssh "$host" "find '$wt_dir' -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort")
+
+# Close the launching tab.
+kitty @ close-tab --self 2>/dev/null || true
