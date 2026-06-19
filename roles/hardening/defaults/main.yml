@@ -1,0 +1,21 @@
+---
+# ── SSH ──────────────────────────────────────────────────────────────────────
+hardening_ssh_port: "{{ ssh_port | default(22) }}"
+hardening_ssh_permit_root_login: "no"
+hardening_ssh_password_authentication: "no"
+hardening_ssh_allow_users:
+  - "{{ workstation_user }}"
+
+# ── Firewall (UFW) ───────────────────────────────────────────────────────────
+hardening_ufw_allowed_tcp_ports:
+  - "{{ hardening_ssh_port }}"
+hardening_ufw_tailscale_interface: tailscale0
+
+# ── fail2ban ─────────────────────────────────────────────────────────────────
+hardening_fail2ban_maxretry: 5
+hardening_fail2ban_bantime: 1h
+
+# ── Tailscale ────────────────────────────────────────────────────────────────
+# Auth key is a secret: provide it via vault (vault_tailscale_auth_key).
+hardening_tailscale_auth_key: "{{ vault_tailscale_auth_key | default('') }}"
+hardening_tailscale_pkg_base: "https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}"

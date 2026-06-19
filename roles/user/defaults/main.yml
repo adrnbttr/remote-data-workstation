@@ -1,0 +1,11 @@
+---
+# The primary account to create on the workstation.
+user_name: "{{ workstation_user }}"
+user_shell: /bin/bash
+user_extra_groups:
+  - sudo
+user_sudo_nopasswd: true
+
+# Public SSH keys allowed to log in. Kept empty here on purpose: real keys live
+# in your own (git-ignored or vaulted) inventory, never in this public repo.
+user_authorized_keys: []

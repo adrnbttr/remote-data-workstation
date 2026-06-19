@@ -1,0 +1,36 @@
+---
+- name: Add the Tailscale package signing key
+  ansible.builtin.get_url:
+    url: "{{ hardening_tailscale_pkg_base }}/{{ ansible_distribution_release }}.noarmor.gpg"
+    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Add the Tailscale apt repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg]
+      {{ hardening_tailscale_pkg_base }} {{ ansible_distribution_release }} main
+    filename: tailscale
+    state: present
+
+- name: Install Tailscale
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+    update_cache: true
+
+- name: Ensure tailscaled is enabled and running
+  ansible.builtin.service:
+    name: tailscaled
+    state: started
+    enabled: true
+
+- name: Bring the node up on the tailnet
+  ansible.builtin.command:
+    cmd: "tailscale up --ssh --authkey {{ hardening_tailscale_auth_key }}"
+  register: hardening_tailscale_up
+  changed_when: "'NeedsLogin' not in hardening_tailscale_up.stdout"
+  when: hardening_tailscale_auth_key | length > 0
+  no_log: true

@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Adrien Bouttier
+  description: Harden the workstation — SSH, firewall, fail2ban, updates, Tailscale.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+dependencies: []

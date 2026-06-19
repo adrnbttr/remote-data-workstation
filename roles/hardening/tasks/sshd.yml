@@ -1,0 +1,13 @@
+---
+- name: Deploy the hardened sshd drop-in configuration
+  ansible.builtin.template:
+    src: sshd_hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/10-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart ssh
+
+- name: Validate the sshd configuration
+  ansible.builtin.command: sshd -t
+  changed_when: false

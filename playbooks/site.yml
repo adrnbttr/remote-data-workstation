@@ -5,7 +5,6 @@
   hosts: workstation
   become: true
 
-  tasks:
-    - name: Scaffold placeholder
-      ansible.builtin.debug:
-        msg: "Base workstation playbook — roles are added in upcoming PRs."
+  roles:
+    - user
+    - hardening
