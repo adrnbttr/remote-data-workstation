@@ -1,0 +1,58 @@
+---
+dev_tools_home: "/home/{{ workstation_user }}"
+
+# Base system packages, including the build dependencies pyenv needs to compile
+# CPython, and libpq for psycopg.
+dev_tools_base_packages:
+  - build-essential
+  - ca-certificates
+  - curl
+  - wget
+  - git
+  - unzip
+  - gnupg
+  - lsb-release
+  - pkg-config
+  - jq
+  - libssl-dev
+  - zlib1g-dev
+  - libbz2-dev
+  - libreadline-dev
+  - libsqlite3-dev
+  - libffi-dev
+  - liblzma-dev
+  - libpq-dev
+
+# Python toolchain: pyenv (with virtualenv plugin), uv, poetry.
+dev_tools_pyenv_dir: "{{ dev_tools_home }}/.pyenv"
+dev_tools_python_version: "{{ python_version }}"
+dev_tools_uv_bin: "{{ dev_tools_home }}/.local/bin/uv"
+dev_tools_poetry_bin: "{{ dev_tools_home }}/.local/bin/poetry"
+
+# Node toolchain via nvm.
+dev_tools_nvm_dir: "{{ dev_tools_home }}/.nvm"
+dev_tools_nvm_version: v0.40.1
+dev_tools_node_version: "{{ node_version }}"
+
+# Modern CLI tools. Most come from apt; lazygit and bottom ship as releases.
+dev_tools_cli_packages:
+  - fzf
+  - bat
+  - fd-find
+  - ripgrep
+  - zoxide
+  - git-delta
+dev_tools_lazygit_version: "0.44.1"
+dev_tools_lazygit_base: "https://github.com/jesseduffield/lazygit/releases/download"
+dev_tools_lazygit_archive: "lazygit_{{ dev_tools_lazygit_version }}_Linux_x86_64.tar.gz"
+dev_tools_bottom_version: "0.10.2"
+dev_tools_bottom_base: "https://github.com/ClementTsang/bottom/releases/download"
+dev_tools_bottom_deb: "bottom_{{ dev_tools_bottom_version }}-1_amd64.deb"
+
+# Docker engine packages.
+dev_tools_docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

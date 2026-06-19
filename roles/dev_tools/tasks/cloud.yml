@@ -1,0 +1,40 @@
+---
+- name: Add the GitHub CLI signing key
+  ansible.builtin.get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /etc/apt/keyrings/githubcli.gpg
+    mode: "0644"
+
+- name: Add the GitHub CLI apt repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [arch={{ ansible_architecture | replace('x86_64', 'amd64') }} signed-by=/etc/apt/keyrings/githubcli.gpg]
+      https://cli.github.com/packages stable main
+    filename: github-cli
+    state: present
+
+- name: Install the GitHub CLI
+  ansible.builtin.apt:
+    name: gh
+    state: present
+    update_cache: true
+
+- name: Add the Google Cloud signing key
+  ansible.builtin.get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: /etc/apt/keyrings/cloud.google.gpg
+    mode: "0644"
+
+- name: Add the Google Cloud SDK apt repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [signed-by=/etc/apt/keyrings/cloud.google.gpg]
+      https://packages.cloud.google.com/apt cloud-sdk main
+    filename: google-cloud-sdk
+    state: present
+
+- name: Install the Google Cloud CLI
+  ansible.builtin.apt:
+    name: google-cloud-cli
+    state: present
+    update_cache: true

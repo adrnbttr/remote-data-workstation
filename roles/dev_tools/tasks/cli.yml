@@ -1,0 +1,51 @@
+---
+- name: Install CLI tools available from apt
+  ansible.builtin.apt:
+    name: "{{ dev_tools_cli_packages }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Ensure the apt keyrings directory exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Add the eza signing key
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/eza-community/eza/main/deb.asc
+    dest: /etc/apt/keyrings/gierens.asc
+    mode: "0644"
+
+- name: Add the eza apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/gierens.asc] http://deb.gierens.de stable main"
+    filename: eza
+    state: present
+
+- name: Install eza
+  ansible.builtin.apt:
+    name: eza
+    state: present
+    update_cache: true
+
+- name: Install lazygit from its release archive
+  ansible.builtin.unarchive:
+    src: "{{ dev_tools_lazygit_base }}/v{{ dev_tools_lazygit_version }}/{{ dev_tools_lazygit_archive }}"
+    dest: /usr/local/bin
+    include:
+      - lazygit
+    remote_src: true
+    creates: /usr/local/bin/lazygit
+
+- name: Download the bottom package
+  ansible.builtin.get_url:
+    url: "{{ dev_tools_bottom_base }}/{{ dev_tools_bottom_version }}/{{ dev_tools_bottom_deb }}"
+    dest: "/tmp/bottom_{{ dev_tools_bottom_version }}.deb"
+    mode: "0644"
+
+- name: Install bottom
+  ansible.builtin.apt:
+    deb: "/tmp/bottom_{{ dev_tools_bottom_version }}.deb"
+    state: present
