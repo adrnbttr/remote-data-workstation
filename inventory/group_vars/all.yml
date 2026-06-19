@@ -1,0 +1,19 @@
+---
+# Base (generic) configuration shared by every workstation.
+# These values drive the socle roles so the project stays reusable.
+
+# ── Identity ────────────────────────────────────────────────────────────────
+workstation_user: adrien
+
+# ── Dotfiles ────────────────────────────────────────────────────────────────
+# A public dotfiles repository, installed via its own bootstrap script (stow).
+dotfiles_repo: "https://github.com/adrnbttr/dotfiles.git"
+dotfiles_dest: "/home/{{ workstation_user }}/dotfiles"
+
+# ── Toolchains (filled in by the dev_tools role) ────────────────────────────
+python_version: "3.13.0"
+node_version: "20"
+
+# ── Security ────────────────────────────────────────────────────────────────
+# Tailscale auth key is a secret: keep it in vault.yml, not here.
+ssh_port: 22

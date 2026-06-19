@@ -1,0 +1,6 @@
+---
+# External Ansible collections. Install with:
+#     ansible-galaxy collection install -r requirements.yml
+collections:
+  - name: community.general
+  - name: ansible.posix

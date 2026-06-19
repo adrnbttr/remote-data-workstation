@@ -1,0 +1,7 @@
+---
+# Example profile — the base workstation plus a generic, anonymized
+# data-workstation overlay (PostgreSQL client, an example data project, a sample
+# docker-compose). It demonstrates how a project layer is added on top of the
+# socle. The overlay role is introduced in a later PR.
+- name: Import base workstation
+  ansible.builtin.import_playbook: site.yml

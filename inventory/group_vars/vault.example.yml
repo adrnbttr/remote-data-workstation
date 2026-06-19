@@ -1,0 +1,10 @@
+---
+# Template for secrets.
+#
+# Copy to vault.yml, fill in real values, then encrypt:
+#     ansible-vault encrypt inventory/group_vars/vault.yml
+#
+# The real vault.yml is git-ignored and must NEVER be committed.
+
+# Tailscale auth key used to enroll the VM (format: tskey-auth-...).
+vault_tailscale_auth_key: ""
