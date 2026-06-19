@@ -1,0 +1,7 @@
+---
+# ── SSH ──────────────────────────────────────────────────────────────────────
+hardening_ssh_port: "{{ ssh_port | default(22) }}"
+hardening_ssh_permit_root_login: "no"
+hardening_ssh_password_authentication: "no"
+hardening_ssh_allow_users:
+  - "{{ workstation_user }}"
