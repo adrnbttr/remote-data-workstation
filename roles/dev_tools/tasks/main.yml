@@ -13,3 +13,6 @@
 
 - name: Install Docker Engine
   ansible.builtin.import_tasks: docker.yml
+
+- name: Install cloud CLIs
+  ansible.builtin.import_tasks: cloud.yml
