@@ -1,6 +1,7 @@
 # Ansible
 *.retry
 *.log
+collections/
 .vault_pass
 .vault_password
 vault_pass.txt
