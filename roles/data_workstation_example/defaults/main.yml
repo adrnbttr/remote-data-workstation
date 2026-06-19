@@ -1,0 +1,8 @@
+---
+# A generic, anonymized example of a data project layered on top of the socle.
+# It demonstrates the pattern (psql client + a local data stack) without tying
+# the public repo to any private project.
+dwx_home: "/home/{{ workstation_user }}"
+dwx_project_dir: "{{ dwx_home }}/data-project"
+dwx_postgres_image: postgres:16-alpine
+dwx_postgres_port: 5432
