@@ -33,3 +33,18 @@ dev_tools_poetry_bin: "{{ dev_tools_home }}/.local/bin/poetry"
 dev_tools_nvm_dir: "{{ dev_tools_home }}/.nvm"
 dev_tools_nvm_version: v0.40.1
 dev_tools_node_version: "{{ node_version }}"
+
+# Modern CLI tools. Most come from apt; lazygit and bottom ship as releases.
+dev_tools_cli_packages:
+  - fzf
+  - bat
+  - fd-find
+  - ripgrep
+  - zoxide
+  - git-delta
+dev_tools_lazygit_version: "0.44.1"
+dev_tools_lazygit_base: "https://github.com/jesseduffield/lazygit/releases/download"
+dev_tools_lazygit_archive: "lazygit_{{ dev_tools_lazygit_version }}_Linux_x86_64.tar.gz"
+dev_tools_bottom_version: "0.10.2"
+dev_tools_bottom_base: "https://github.com/ClementTsang/bottom/releases/download"
+dev_tools_bottom_deb: "bottom_{{ dev_tools_bottom_version }}-1_amd64.deb"

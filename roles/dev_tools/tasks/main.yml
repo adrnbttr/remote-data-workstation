@@ -7,3 +7,6 @@
 
 - name: Install the Node toolchain
   ansible.builtin.import_tasks: node.yml
+
+- name: Install modern CLI tools
+  ansible.builtin.import_tasks: cli.yml
