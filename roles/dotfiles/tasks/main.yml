@@ -19,6 +19,26 @@
         version: "{{ dotfiles_version }}"
         update: true
 
+    - name: Install oh-my-zsh
+      ansible.builtin.git:
+        repo: https://github.com/ohmyzsh/ohmyzsh
+        dest: "{{ dotfiles_oh_my_zsh_dir }}"
+        version: master
+        depth: 1
+        update: false
+      when: dotfiles_install_oh_my_zsh | bool
+
+    - name: Install the zsh plugins
+      ansible.builtin.git:
+        repo: "{{ item.repo }}"
+        dest: "{{ dotfiles_zsh_plugins_dir }}/{{ item.name }}"
+        version: "{{ item.version | default('master') }}"
+        depth: 1
+        update: false
+      loop: "{{ dotfiles_zsh_plugins }}"
+      loop_control:
+        label: "{{ item.name }}"
+
     - name: Stow the dotfiles packages
       ansible.builtin.command:
         cmd: "stow -v -d {{ dotfiles_dest }} -t {{ dotfiles_home }} -R {{ item }}"
