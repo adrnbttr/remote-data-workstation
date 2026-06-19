@@ -1,0 +1,23 @@
+# Ansible
+*.retry
+*.log
+.vault_pass
+.vault_password
+vault_pass.txt
+
+# Local inventories & secrets (never commit real hosts or secrets)
+inventory/hosts.ini
+inventory/group_vars/vault.yml
+**/*.vault.yml
+!**/vault.example.yml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
