@@ -1,0 +1,17 @@
+---
+- name: Install the PostgreSQL client
+  ansible.builtin.apt:
+    name: postgresql-client
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Set up the example data project
+  become: true
+  become_user: "{{ workstation_user }}"
+  block:
+    - name: Create the project directory
+      ansible.builtin.file:
+        path: "{{ dwx_project_dir }}"
+        state: directory
+        mode: "0755"
