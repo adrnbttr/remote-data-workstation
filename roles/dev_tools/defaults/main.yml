@@ -22,3 +22,9 @@ dev_tools_base_packages:
   - libffi-dev
   - liblzma-dev
   - libpq-dev
+
+# Python toolchain: pyenv (with virtualenv plugin), uv, poetry.
+dev_tools_pyenv_dir: "{{ dev_tools_home }}/.pyenv"
+dev_tools_python_version: "{{ python_version }}"
+dev_tools_uv_bin: "{{ dev_tools_home }}/.local/bin/uv"
+dev_tools_poetry_bin: "{{ dev_tools_home }}/.local/bin/poetry"

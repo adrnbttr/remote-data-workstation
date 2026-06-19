@@ -1,3 +1,6 @@
 ---
 - name: Install base system packages
   ansible.builtin.import_tasks: base.yml
+
+- name: Install the Python toolchain
+  ansible.builtin.import_tasks: python.yml

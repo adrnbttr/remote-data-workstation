@@ -1,0 +1,55 @@
+---
+- name: Install the Python toolchain
+  become: true
+  become_user: "{{ workstation_user }}"
+  block:
+    - name: Clone pyenv
+      ansible.builtin.git:
+        repo: https://github.com/pyenv/pyenv
+        dest: "{{ dev_tools_pyenv_dir }}"
+        version: master
+        depth: 1
+        update: false
+
+    - name: Clone the pyenv-virtualenv plugin
+      ansible.builtin.git:
+        repo: https://github.com/pyenv/pyenv-virtualenv
+        dest: "{{ dev_tools_pyenv_dir }}/plugins/pyenv-virtualenv"
+        version: master
+        depth: 1
+        update: false
+
+    - name: Install the configured Python version
+      ansible.builtin.command:
+        cmd: "{{ dev_tools_pyenv_dir }}/bin/pyenv install -s {{ dev_tools_python_version }}"
+        creates: "{{ dev_tools_pyenv_dir }}/versions/{{ dev_tools_python_version }}"
+
+    - name: Set the global Python version
+      ansible.builtin.command:
+        cmd: "{{ dev_tools_pyenv_dir }}/bin/pyenv global {{ dev_tools_python_version }}"
+      changed_when: false
+
+    - name: Download the uv installer
+      ansible.builtin.get_url:
+        url: https://astral.sh/uv/install.sh
+        dest: /tmp/uv-install.sh
+        mode: "0755"
+
+    - name: Install uv
+      ansible.builtin.command:
+        cmd: sh /tmp/uv-install.sh
+        creates: "{{ dev_tools_uv_bin }}"
+      environment:
+        UV_INSTALL_DIR: "{{ dev_tools_home }}/.local/bin"
+        INSTALLER_NO_MODIFY_PATH: "1"
+
+    - name: Download the poetry installer
+      ansible.builtin.get_url:
+        url: https://install.python-poetry.org
+        dest: /tmp/poetry-install.py
+        mode: "0755"
+
+    - name: Install poetry
+      ansible.builtin.command:
+        cmd: python3 /tmp/poetry-install.py --yes
+        creates: "{{ dev_tools_poetry_bin }}"
