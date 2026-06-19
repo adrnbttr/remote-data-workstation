@@ -1,0 +1,7 @@
+---
+# Packages that make a remote SSH session feel local:
+#   - mosh: resilient, low-latency shell over unreliable links
+#   - kitty-terminfo: so kitty's terminal features work when connecting in
+remote_shell_packages:
+  - mosh
+  - kitty-terminfo
