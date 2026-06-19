@@ -1,0 +1,35 @@
+---
+- name: Install dotfiles prerequisites
+  ansible.builtin.apt:
+    name:
+      - git
+      - stow
+      - zsh
+    state: present
+    update_cache: true
+
+- name: Set up dotfiles for the workstation user
+  become: true
+  become_user: "{{ workstation_user }}"
+  block:
+    - name: Clone the dotfiles repository
+      ansible.builtin.git:
+        repo: "{{ dotfiles_repo }}"
+        dest: "{{ dotfiles_dest }}"
+        version: "{{ dotfiles_version }}"
+        update: true
+
+    - name: Stow the dotfiles packages
+      ansible.builtin.command:
+        cmd: "stow -v -d {{ dotfiles_dest }} -t {{ dotfiles_home }} -R {{ item }}"
+      loop: "{{ dotfiles_stow_packages }}"
+      register: dotfiles_stow
+      changed_when: "'LINK' in dotfiles_stow.stderr or 'UNLINK' in dotfiles_stow.stderr"
+      loop_control:
+        label: "{{ item }}"
+
+- name: Set zsh as the default shell
+  ansible.builtin.user:
+    name: "{{ workstation_user }}"
+    shell: "{{ dotfiles_zsh_path }}"
+  when: dotfiles_set_default_shell | bool

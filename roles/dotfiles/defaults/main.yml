@@ -1,0 +1,14 @@
+---
+# The dotfiles repository is managed with GNU Stow.
+# `dotfiles_repo` and `dotfiles_dest` are defined in group_vars/all.yml.
+dotfiles_version: master
+dotfiles_home: "/home/{{ workstation_user }}"
+dotfiles_stow_packages:
+  - zsh
+  - config
+  - oh-my-zsh-custom
+  - bin
+
+# Make zsh the login shell once the dotfiles are in place.
+dotfiles_set_default_shell: true
+dotfiles_zsh_path: /usr/bin/zsh
