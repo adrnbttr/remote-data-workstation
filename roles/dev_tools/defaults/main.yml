@@ -48,3 +48,11 @@ dev_tools_lazygit_archive: "lazygit_{{ dev_tools_lazygit_version }}_Linux_x86_64
 dev_tools_bottom_version: "0.10.2"
 dev_tools_bottom_base: "https://github.com/ClementTsang/bottom/releases/download"
 dev_tools_bottom_deb: "bottom_{{ dev_tools_bottom_version }}-1_amd64.deb"
+
+# Docker engine packages.
+dev_tools_docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

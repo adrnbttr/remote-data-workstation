@@ -10,3 +10,6 @@
 
 - name: Install modern CLI tools
   ansible.builtin.import_tasks: cli.yml
+
+- name: Install Docker Engine
+  ansible.builtin.import_tasks: docker.yml
