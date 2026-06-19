@@ -1,5 +1,9 @@
 # remote-data-workstation
 
+[![CI](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/ci.yml)
+[![Security](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/security.yml/badge.svg)](https://github.com/adrnbttr/remote-data-workstation/actions/workflows/security.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 Infrastructure-as-code, powered by **Ansible**, to provision a secure and
 reproducible **remote data-engineering workstation**.
 
@@ -56,6 +60,13 @@ ansible-galaxy collection install -r requirements.yml
 cp inventory/hosts.example.ini inventory/hosts.ini   # then edit
 ansible-playbook playbooks/site.yml
 ```
+
+## Quality & CI
+
+Every pull request is gated by automated checks: `yamllint`, `ansible-lint`,
+playbook syntax checks, `gitleaks` secret scanning, and `commitlint`
+(Conventional Commits). The same checks run locally via pre-commit — see
+[CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
