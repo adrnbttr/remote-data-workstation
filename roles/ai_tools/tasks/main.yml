@@ -1,0 +1,17 @@
+---
+- name: Install AI CLI tooling
+  become: true
+  become_user: "{{ workstation_user }}"
+  block:
+    - name: Download the Claude Code installer
+      ansible.builtin.get_url:
+        url: https://claude.ai/install.sh
+        dest: /tmp/claude-install.sh
+        mode: "0755"
+      when: ai_tools_install_claude_code | bool
+
+    - name: Install Claude Code
+      ansible.builtin.command:
+        cmd: bash /tmp/claude-install.sh
+        creates: "{{ ai_tools_claude_bin }}"
+      when: ai_tools_install_claude_code | bool
