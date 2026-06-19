@@ -28,3 +28,8 @@ dev_tools_pyenv_dir: "{{ dev_tools_home }}/.pyenv"
 dev_tools_python_version: "{{ python_version }}"
 dev_tools_uv_bin: "{{ dev_tools_home }}/.local/bin/uv"
 dev_tools_poetry_bin: "{{ dev_tools_home }}/.local/bin/poetry"
+
+# Node toolchain via nvm.
+dev_tools_nvm_dir: "{{ dev_tools_home }}/.nvm"
+dev_tools_nvm_version: v0.40.1
+dev_tools_node_version: "{{ node_version }}"

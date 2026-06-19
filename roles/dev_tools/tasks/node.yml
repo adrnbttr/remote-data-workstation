@@ -1,0 +1,17 @@
+---
+- name: Install the Node toolchain
+  become: true
+  become_user: "{{ workstation_user }}"
+  block:
+    - name: Clone nvm
+      ansible.builtin.git:
+        repo: https://github.com/nvm-sh/nvm
+        dest: "{{ dev_tools_nvm_dir }}"
+        version: "{{ dev_tools_nvm_version }}"
+        depth: 1
+
+    - name: Install the configured Node version
+      ansible.builtin.shell:
+        cmd: ". {{ dev_tools_nvm_dir }}/nvm.sh && nvm install {{ dev_tools_node_version }}"
+        executable: /bin/bash
+        creates: "{{ dev_tools_nvm_dir }}/versions/node"

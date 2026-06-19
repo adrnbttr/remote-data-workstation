@@ -4,3 +4,6 @@
 
 - name: Install the Python toolchain
   ansible.builtin.import_tasks: python.yml
+
+- name: Install the Node toolchain
+  ansible.builtin.import_tasks: node.yml
