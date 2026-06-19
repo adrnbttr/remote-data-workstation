@@ -1,0 +1,27 @@
+---
+- name: Ensure the primary user exists
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    shell: "{{ user_shell }}"
+    groups: "{{ user_extra_groups }}"
+    append: true
+    create_home: true
+    state: present
+
+- name: Grant passwordless sudo
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/90-{{ user_name }}"
+    content: "{{ user_name }} ALL=(ALL) NOPASSWD:ALL\n"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: visudo -cf %s
+  when: user_sudo_nopasswd | bool
+
+- name: Install authorized SSH keys
+  ansible.posix.authorized_key:
+    user: "{{ user_name }}"
+    key: "{{ item }}"
+    state: present
+  loop: "{{ user_authorized_keys }}"
+  when: user_authorized_keys | length > 0
