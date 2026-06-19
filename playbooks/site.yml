@@ -8,3 +8,4 @@
   roles:
     - user
     - hardening
+    - dotfiles

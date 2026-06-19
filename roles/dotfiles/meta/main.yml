@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Adrien Bouttier
+  description: Clone and stow the user's dotfiles, with oh-my-zsh and zsh plugins.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+dependencies: []
